@@ -9,12 +9,23 @@ using Zenject;
 using System.ComponentModel;
 using UnityEditorInternal;
 
+/// <summary>
+/// The SorthMethod enum sets the type of sorting the application uses
+/// 
+/// SortingMethod.Distance Using direct distance calculations on every object present to find the nearest. Works Great but not as efficient
+/// 
+/// SortingMethod.Nearby Attempts to do smaller math calculations to narrow down the list before doing distance calculation, not really more efficiant than Distance method cause the equations are slightly smaller but now there are even more
+/// 
+/// SortingMethod.DistanceBuckets Uses the sorted 2d(3d) position array to only check items in nearby quadrants of the players position
+/// 
+/// </summary>
 public enum SortMethod
 {
     Distance,
     Nearby,
     PositionalBuckets
 }
+
 /// <summary>
 /// SceneManager coordinates the solving of nearest object to player as well as holds reference to all the objects int he scene for the checking
 /// It also utilizes DataManager to load and save the scene
@@ -47,6 +58,9 @@ public class SceneManager : MonoBehaviour
         container = diContainer;
     }
     DiContainer container;
+
+
+
     /// <summary>
     /// Player is our single and main player object in the scene that is used when finding the nearest object to the player
     /// Set Get stores the private player class object and finds the object in the scene if it is null
@@ -56,6 +70,11 @@ public class SceneManager : MonoBehaviour
     {
         set { player = value; }
         get {
+
+            //when the scene is not running the dependencies are not built and injected so we default to some dependencies
+            if (!Application.isPlaying && player == null) player = FindObjectOfType<Player>();
+
+
             return player; }
     }
 
@@ -328,7 +347,11 @@ public class SceneManager : MonoBehaviour
     /// <returns></returns>
     SceneObject SpawnPrefab(Vector3 pos, GameObject obj)
     {
-        return container.InstantiatePrefab(obj, pos, Quaternion.identity, this.transform).GetComponent<SceneObject>();
+        if(container != null)
+            return container.InstantiatePrefab(obj, pos, Quaternion.identity, this.transform).GetComponent<SceneObject>();
+        else //if scene is not running then the dependency container isnt set up yet
+            return Instantiate(obj, pos, Quaternion.identity, this.transform).GetComponent<SceneObject>();
+
 
     }
 
@@ -520,7 +543,7 @@ public class SceneManager : MonoBehaviour
         {
             for (int y = 0; y < spawnRange * 2; y++)
             {
-                if (SceneObjectsPositionBuckets[x, y].Contains(obj))
+                if (SceneObjectsPositionBuckets[x, y] != null && SceneObjectsPositionBuckets[x, y].Contains(obj))
                     SceneObjectsPositionBuckets[x, y].Remove(obj);
             }
         }
@@ -691,7 +714,7 @@ public class SceneManager : MonoBehaviour
     /// <param name="list">A reference to an initialy empty list that gets filled and then use after this method is done</param>
     void GatherObjectsFromNearbyBuckets(int distance, ref List<SceneObject> list)
     {
-        if (distance > spawnRange / 4)
+        if (distance > spawnRange)
         {
             list = SceneObjects;
             return;
@@ -699,6 +722,11 @@ public class SceneManager : MonoBehaviour
 
         int x = (int)Player.transform.position.x + spawnRange;
         int y = (int)Player.transform.position.z +spawnRange;
+
+        if (x > spawnRange * 2) x = spawnRange * 2;
+        else if (x < 0) x = 0;
+        if (y > spawnRange) y = spawnRange * 2;
+        else if (y < 0) y = 0;
 
         if (SceneObjectsPositionBuckets[x, y] != null)
             list.AddRange(SceneObjectsPositionBuckets[x, y]);
@@ -717,6 +745,7 @@ public class SceneManager : MonoBehaviour
 
             if (list.Count == 0)
                 GatherObjectsFromNearbyBuckets(distance+=1, ref list);
+           
         }
     }
 
