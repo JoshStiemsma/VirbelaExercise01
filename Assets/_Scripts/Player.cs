@@ -12,7 +12,23 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Reference to the scene manager to receive updated information and call refresh when this object moves. Injected via SceneInstaller
     /// </summary>
-    public SceneManager Manager;
+    private SceneManager manager;
+
+    public SceneManager Manager
+    {
+        set
+        {
+            manager = value;
+        }
+        get
+        {
+
+            //when the scene is not running the dependencies are not built and injected so we default to some dependencies
+            if (!Application.isPlaying && manager == null) manager = FindObjectOfType<SceneManager>();
+
+            return manager;
+        }
+    }
 
     [Inject]
     public void Construct(SceneManager _manager)

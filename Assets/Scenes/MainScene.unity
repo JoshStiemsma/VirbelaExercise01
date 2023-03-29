@@ -229,6 +229,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6669282177099965528, guid: 5d58737cdd63ea74c96e41ef2002da9d, type: 3}
+      propertyPath: runInEditor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669282177099965528, guid: 5d58737cdd63ea74c96e41ef2002da9d, type: 3}
       propertyPath: sortingMethod
       value: 2
       objectReference: {fileID: 0}
