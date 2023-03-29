@@ -5,17 +5,18 @@
 Unity Version: 2021.3.6f1
 
 Plugins
-  Zenject/Extenject
+  - Zenject/Extenject
   
 Includes:
-  Unity Testing with Dependecy Injection
-  Multiple Selectable Distance Calculation
-  Realtime Editor features
-  Save/Load via Json
-  XML documentation 
-  
+  - Unity Testing with Dependecy Injection
+  - Multiple Selectable Distance Calculation
+  - Realtime Editor features
+  - Save/Load via Json
+  - XML documentation 
+  - Key input with "I" for item and "B" for bot
 
-**Assignment:**
+# Assignment:
+
 
 Exercise 1
 In this exercise you'll configure a Unity scene and write scripts to create an interactive experience. As you progress through the steps, feel free to add comments to the code about why you choose to do things a certain way. Add comments if you felt like there's a better, but more time intensive way to implement specific functionality. It's OK to be more verbose in your comments than typical, to give us a better idea of your thoughts when writing the code.
@@ -62,61 +63,65 @@ Functional Goal 4:
 Allow the designer to choose the base color and highlight color for Items/Bots at edit time.
 
 Questions
-How can your implementation be optimized?
-How much time did you spend on your implementation?
-What was most challenging for you?
-What else would you add to this exercise?
+- How can your implementation be optimized?
+- How much time did you spend on your implementation?
+- What was most challenging for you?
+- What else would you add to this exercise?
 
 Optional
-Find a way to make use of dependency injection when implementing the functional goals. Feel free to use an existing framework or create your own.
-Add Unit Tests
-Add XML docs
-Optimize finding nearest
-Add new Items/Bots automatically on key press
-Read/write Item/Bot/Player state to a file and restore on launch
+- Find a way to make use of dependency injection when implementing the functional goals. Feel free to use an existing framework or create your own.
+- Add Unit Tests
+- Add XML docs
+- Optimize finding nearest
+- Add new Items/Bots automatically on key press
+- Read/write Item/Bot/Player state to a file and restore on launch
 
 Next Steps
-Confirm you've addressed the functional goals
-Answer the questions above by adding them to this file
-Commit and push the entire repository, with your completed project, back into a repository host of your choice (bitbucket, github, gitlab, etc.)
-Share your project URL with your Virbela contact (Recruiter or Hiring Manager)
-If you have questions
-Reach out to your Virbela contact (Recruiter or Hiring Manager)
+- Confirm you've addressed the functional goals
+- Answer the questions above by adding them to this file
+- Commit and push the entire repository, with your completed project, back into a repository host of your choice (bitbucket, github, gitlab, etc.)
+- Share your project URL with your Virbela contact (Recruiter or Hiring Manager)
+- If you have questions
+- Reach out to your Virbela contact (Recruiter or Hiring Manager)
 
 
 
 
 
+# Questions
 
-**Assignment:**
 
-
-Questions
 1. How can your implementation be optimized?
+
 	An optimization would be to not use my "Run In Editor" option because although it is set up just fine and works as intended, it is never ideal to run a lot of scene processes or updates while in editor and calls for components to hold variable when not in play mode. Its a cool feature that works on this small project but would not be ideal for larger applications with more aspects to keep in mind, although these editor and inspector scripts can really help automate a lot of developer processes too. 
 	Move everything to a positive quadrant so none of my calculations have to consider negatives or offsets due to negative values.
-
-
+	A lot of optimization was applied, like only running the distance check every couple of frames instead of every frame, Only updating materials that needed to be instead of all of them on change, 
+	Antoher aspect is my Bucket Search method starts by checking neihboring tiles which is 8 tiles for being one block away, left, right, up, down and four corners, but still checks only 8 tiles when 2 tiles away. It should check all tiles as the search grows, However even with limited checks the proper object is still found and this did not turn into an issue so it could be consisdered optimization since it generally works the same as an operation that does check every box.
 
 2. How much time did you spend on your implementation?
 
-About 2 hours for goal 1-4
-45 hour for XML documentation
-2 hours for Optimizing finding nearest
-3 hours for Unity Testing setup with Dependency Injection
-Less than an hour for key press additions and Read/Write file for restoring on laucnh
+- About 2 hours for goal 1-4
+- 45 hour for XML documentation
+- 2 hours for Optimizing finding nearest
+- 3 hours for Unity Testing setup with Dependency Injection
+- Less than an hour for key press additions and Read/Write file for restoring on laucnh
 
-8 hours over 2 days
+- 8 hours total over 2 days
 
 
 3. What was most challenging for you?
 
-	My largest challenge was just using Dependency Injections WITH Unit Testing, but once I started working with it it all went well. 
+	My largest challenge was just using Dependency Injections WITH Unit Testing, but once I started working with it it all went well and was a good exercise.
 
 	Another chellenge I faced was optimizing the nearest algorithm away from doing so many distance calculations. My solution was to put each scene object into a 2d array where the position in the array relates to the int x and z position of the object so that the player only needs to search nearby items within that array for the distance calculation instead of doing that for every object.
 
-	Another fun challeng I faced was allowing the user to change the color in edit mode and have them reflected in the scene immedietaly, even when in Edit mode and not in Play mode, for the fourth goal function. I was not sure if the exercise called for the scene to update immedietly or just allow the designer to change the color then and it update on play, but it was a fun challenge to have it update regardless of Play/Edit. This allowed me to work through running updates on object even when in Edit mode which brought on a lot of situations where things could go wrong. The dependency injection helped my scene get ready for the dependecies used in this situation and for unity Testing. Also the Scene Objects list had to be managed regardless of play mode. 
+	Another fun challeng I faced was allowing the user to change the color in edit mode and have them reflected in the scene immedietaly, even when in Edit mode and not in Play mode, for the fourth goal function. I was not sure if the exercise called for the scene to update immedietly or just allow the designer to change the color then and it update on play, but it was a fun challenge to have it update regardless of Play/Edit. This allowed me to work through running updates on object even when in Edit mode which brought on a lot of situations where things could go wrong. The dependency injection helped my scene get ready for the dependecies used in this situation and for unit Testing. Also the Scene Objects list had to be managed regardless of play mode. 
 
-
+	I also ran into some issues when executing code in edit mode due to the dependency injector not being built untill play mode. I defaulted back to seeking dependencies in this situations since they dont happen as much and doing things in edit mode was just an additional feature, not a main one.
+	
+	
 4. What else would you add to this exercise?
+
 	I would add pushing and merging to the repo at every step so the process can be viewed instead of just the end product. A lot of optimizations I originally listed above I ended up incorperating later in the process.
+	
+	
