@@ -94,8 +94,10 @@ Next Steps
 1. How can your implementation be optimized?
 
 	An optimization would be to not use my "Run In Editor" option because although it is set up just fine and works as intended, it is never ideal to run a lot of scene processes or updates while in editor and calls for components to hold variable when not in play mode. Its a cool feature that works on this small project but would not be ideal for larger applications with more aspects to keep in mind, although these editor and inspector scripts can really help automate a lot of developer processes too. 
+	
 	Move everything to a positive quadrant so none of my calculations have to consider negatives or offsets due to negative values.
 	A lot of optimization was applied, like only running the distance check every couple of frames instead of every frame, Only updating materials that needed to be instead of all of them on change, 
+	
 	Antoher aspect is my Bucket Search method starts by checking neihboring tiles which is 8 tiles for being one block away, left, right, up, down and four corners, but still checks only 8 tiles when 2 tiles away. It should check all tiles as the search grows, However even with limited checks the proper object is still found and this did not turn into an issue so it could be consisdered optimization since it generally works the same as an operation that does check every box.
 
 2. How much time did you spend on your implementation?
@@ -117,7 +119,7 @@ Next Steps
 
 	Another fun challeng I faced was allowing the user to change the color in edit mode and have them reflected in the scene immedietaly, even when in Edit mode and not in Play mode, for the fourth goal function. I was not sure if the exercise called for the scene to update immedietly or just allow the designer to change the color then and it update on play, but it was a fun challenge to have it update regardless of Play/Edit. This allowed me to work through running updates on object even when in Edit mode which brought on a lot of situations where things could go wrong. The dependency injection helped my scene get ready for the dependecies used in this situation and for unit Testing. Also the Scene Objects list had to be managed regardless of play mode. 
 
-	I also ran into some issues when executing code in edit mode due to the dependency injector not being built untill play mode. I defaulted back to seeking dependencies in this situations since they dont happen as much and doing things in edit mode was just an additional feature, not a main one.
+	I also ran into some issues when executing code in edit mode due to the dependency injector not being built untill play mode. I defaulted back to seeking dependencies in this situations since they dont happen as much and doing things in edit mode was just an additional feature, not a main one. Im still curious if there is a way to buil these dependencies before the scene even runs to handle these situations.
 	
 	
 4. What else would you add to this exercise?
