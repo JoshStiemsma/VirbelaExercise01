@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 41da5a992c61a3b4ea54b5756d90112e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - defaultMaterial: {fileID: 2100000, guid: 93c558cf5a8d43647b8881cbe8758290, type: 2}
+  - BotMaterial: {fileID: 2100000, guid: 054a76a6799123749b795cdd9ded3a92, type: 2}
+  - ItemMaterial: {fileID: 2100000, guid: 16f674735cd643f4183d4e6cdee5ec57, type: 2}
+  - PlayerMaterial: {fileID: 2100000, guid: a44ab88920d7c1d4997c3ff30b48706a, type: 2}
+  - BotPrefab: {fileID: 6670046961515578289, guid: 61000053f439231408aa39f070eb0802, type: 3}
+  - ItemPrefab: {fileID: 5761670777907670301, guid: c6c98d5ec5030e44b960cb69e07687de, type: 3}
+  - SceneObjectsContainer: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
