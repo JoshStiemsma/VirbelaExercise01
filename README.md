@@ -15,6 +15,22 @@ Includes:
   - XML documentation 
   - Key input with "I" for item and "B" for bot
 
+
+
+# Usage Directions
+- Select SceneManager for all scene editing tools Edit/Play
+- If there is a saved file, it will clear current scene on Play and scene saves on exit. There are buttons to clear save data in inspector
+- Sorting Method Enum switches between basic distance finding and optimized modes
+- Colors change in real time via Color Selections, you can change material colors or materials but the Color fields should work best
+- Run in editor runs the distance checks even in editor
+- Ignore delay will set the distance check to run every frame
+- Add, remove, and clear buttons work in and out of play mode (edit state gets cleared on play if there is a saved file)
+- Save, load and clear Data buttons work in play or edit
+- You can ignore inspector buttons and just drop prefabs from (Resources/Prefabs) into scene to be grabbed at start
+
+
+
+
 # Assignment:
 
 
@@ -120,6 +136,8 @@ Next Steps
 	Another fun challeng I faced was allowing the user to change the color in edit mode and have them reflected in the scene immedietaly, even when in Edit mode and not in Play mode, for the fourth goal function. I was not sure if the exercise called for the scene to update immedietly or just allow the designer to change the color then and it update on play, but it was a fun challenge to have it update regardless of Play/Edit. This allowed me to work through running updates on object even when in Edit mode which brought on a lot of situations where things could go wrong. The dependency injection helped my scene get ready for the dependecies used in this situation and for unit Testing. Also the Scene Objects list had to be managed regardless of play mode. 
 
 	I also ran into some issues when executing code in edit mode due to the dependency injector not being built untill play mode. I defaulted back to seeking dependencies in this situations since they dont happen as much and doing things in edit mode was just an additional feature, not a main one. Im still curious if there is a way to buil these dependencies before the scene even runs to handle these situations.
+	
+	One more issues that caused me a bit of time was managing SceneObjects while switching between Play and Edit, especially if there was a save file that loaded objects on Play. This got a bit confusing for the user as to why objects were dissapearing and reappearing. I did my best to manage expectations but having an auto-save and auto-load feature does involve these invisiable situations.
 	
 	
 4. What else would you add to this exercise?
