@@ -86,9 +86,10 @@ public class SceneManager : MonoBehaviour
     /// </summary>
     [HideInInspector]
     public List<SceneObject> SceneObjects = new List<SceneObject>();
+    
 
 
-    [HideInInspector]
+        [HideInInspector]
     public List<SceneObject>[,] SceneObjectsPositionBuckets = new List<SceneObject>[spawnRange *2 +1, spawnRange *2 +1 ];
 
 
@@ -214,6 +215,10 @@ public class SceneManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         SaveData();
+        SceneObjects.Clear();
+        SceneObjectsPositionBuckets = null;
+
+     
     }
 
     void Update()
@@ -257,7 +262,6 @@ public class SceneManager : MonoBehaviour
 
         DataManager.SaveData(saveData);
     }
-   
     /// <summary>
     /// Load data and generate scene if data is present
     /// </summary>
@@ -265,6 +269,8 @@ public class SceneManager : MonoBehaviour
     public void LoadData(bool SpawnOnEmpty = false)
     {
         saveData = DataManager.LoadData();
+
+        SceneObjects = GameObject.FindObjectsOfType<SceneObject>().ToList();//we have to gather allt hat might have been added manuely in edit mode
 
         if (saveData != null)
         {
@@ -289,7 +295,7 @@ public class SceneManager : MonoBehaviour
             Player.transform.position = saveData.Player;
 
         }
-        else if(SpawnOnEmpty)
+        else if(SpawnOnEmpty && SceneObjects.Count==0)//if objects array is empty then lets add some
         {
 
             ClearAll();
@@ -301,6 +307,18 @@ public class SceneManager : MonoBehaviour
                 SpawnFiveNewBot();
                 SpawnFiveNewItem();
             }
+        }
+        else
+        {
+            SceneObjectsPositionBuckets = new List<SceneObject>[spawnRange * 2 + 1, spawnRange * 2 + 1];
+            foreach (SceneObject obj in SceneObjects)
+            {
+                obj.gameObject.transform.SetParent(this.transform);
+                AddObjectToPositionalArray(obj);
+
+            }
+
+
         }
         FindClosestItem(false);
 
@@ -484,9 +502,12 @@ public class SceneManager : MonoBehaviour
     /// Clear all items and bots from Scene
     /// </summary>
     public void ClearAll() {
-        foreach (SceneObject i in SceneObjects.AsEnumerable().Reverse())
+
+        SceneObjects = GameObject.FindObjectsOfType<SceneObject>().ToList();
+        foreach (SceneObject i in SceneObjects.AsEnumerable())
         {
-           if(i !=null) DestroyImmediate(i.gameObject);
+          // if(i !=null) 
+                DestroyImmediate(i.gameObject);
         }
         SceneObjects.Clear();
         SceneObjectsPositionBuckets = new List<SceneObject>[spawnRange * 2+1 , spawnRange *2+1 ];
@@ -610,12 +631,15 @@ public class SceneManager : MonoBehaviour
         //using the SceneObjects List, compare distance and store the closest
         foreach (var obj in SceneObjects)
         {
-            float distance = Mathf.Abs((obj.transform.position - playerPosition).sqrMagnitude);
-            if (distance < shortestDistance || closest == null)
+            if (obj != null)
             {
-                closest = obj;
-                shortestDistance = distance;
-                // Debug.Log($"Found closest item {obj.gameObject.name}  {distance}");
+                float distance = Mathf.Abs((obj.transform.position - playerPosition).sqrMagnitude);
+                if (distance < shortestDistance || closest == null)
+                {
+                    closest = obj;
+                    shortestDistance = distance;
+                    // Debug.Log($"Found closest item {obj.gameObject.name}  {distance}");
+                }
             }
         }
 
